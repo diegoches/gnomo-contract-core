@@ -12,9 +12,12 @@ __pycache__/
 /.cache
 /.pytest_cache
 /.mypy_cache
-.idea/
+
 *.iml
+.idea
+.idea/
+/.idea/
 
 /doc/_apidoc/
 /build
-/.idea/
+
