@@ -1,1 +1,1 @@
-# gnomo-contract-core
+# gnomo-contract-core-python
