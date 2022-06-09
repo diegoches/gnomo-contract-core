@@ -1,0 +1,105 @@
+{
+  "global_mappings": {
+    "host": {
+      "type": "OPTIONS",
+      "options": {
+        "ARRENDATARIO": "EL ARRENDATARIO",
+        "ARRENDATARIA": "LA ARRENDATARIA",
+        "ARRENDATARIOS": "LOS ARRENDATARIOS",
+        "ARRENDATARIAS": "LAS ARRENDATARIOS"
+      }
+    },
+    "tenant": {
+      "type": "OPTIONS",
+      "options": {
+        "ARRENDADOR": "EL ARRENDADOR",
+        "ARRENDADORA": "LA ARRENDADORA",
+        "ARRENDADORES": "LOS ARRENDADORES",
+        "ARRENDADORAS": "LAS ARRENDADORAS"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "title",
+      "text": "<title>",
+      "metadata": {},
+      "mappings": {
+        "title": {
+          "type": "OPTIONS",
+          "options": {
+            "minuta": "Sírvase extender en su Registro de Escrituras Públicas, una en la que conste Contrato de Arrendamiento de Bien Inmueble (en adelante, contrato) que celebran, de una parte.",
+            "privado": "Contrato de Arrendamiento de bien inmueble."
+          }
+        }
+      }
+    },
+    {
+      "id": "header",
+      "text": "De un lado el/la/los/las señor/a/ita/es/as/itas <host_name> con <host_doc_type> N° <host_doc_id> con domicilio en <host_address>, distrito de <host_district>, \n\tprovincia de <host_province> y departamento de <host_district> a quien adelante se le denominará <tenant> y; del otro lado el/la/los/las señor/a/ita/es/as/itas \n\t<tenant_name> con <tenant_doc_type> N° <tenant_doc_id> con domicilio en <tenant_address>, distrito de <tenant_district>, provincia de <tenant_province> y departamento de \n\t<tenant_district> a quien adelante se le denominará <host>. En los términos y condiciones siguientes.\n\tAsímismo señalan que en este documento <tenant> y <host> serán referidos de manera conjunta como LAS PARTES.",
+      "metadata": {
+        "numeration": true
+      },
+      "mappings": {
+        "host_name": {
+          "type": "STRING"
+        },
+        "host_doc_type": {
+          "type": "OPTIONS",
+          "options": {
+            "dni": "Documento Nacional de Identidad",
+            "carnet": "Carnet de Extranjería"
+          }
+        },
+        "host_doc_id": {
+          "type": "STRING"
+        },
+        "host_address": {
+          "type": "STRING"
+        },
+        "host_district": {
+          "type": "STRING"
+        },
+        "host_province": {
+          "type": "STRING"
+        },
+        "host_department": {
+          "type": "OPTIONS",
+          "options": {
+            "AREQUIPA": "Arequipa",
+            "ICA": "Ica"
+          }
+        },
+        "tenant_name": {
+          "type": "STRING"
+        },
+        "tenant_doc_type": {
+          "type": "OPTIONS",
+          "options": {
+            "dni": "Documento Nacional de Identidad",
+            "carnet": "Carnet de Extranjería"
+          }
+        },
+        "tenant_doc_id": {
+          "type": "STRING"
+        },
+        "tenant_address": {
+          "type": "STRING"
+        },
+        "tenant_district": {
+          "type": "STRING"
+        },
+        "tenant_province": {
+          "type": "STRING"
+        },
+        "tenant_department": {
+          "type": "OPTIONS",
+          "options": {
+            "AREQUIPA": "Arequipa",
+            "ICA": "Ica"
+          }
+        }
+      }
+    }
+  ]
+}

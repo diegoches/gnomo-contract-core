@@ -1,0 +1,295 @@
+
+//    {
+//      "id": "",
+//      "text": "",
+//      "metadata": {},
+//      "mappings": {}
+//    }
+
+//     "host_name": {
+//          "type": "STRING"
+//        },
+
+//        "host_doc_type": {
+//          "type": "OPTIONS",
+//          "options": {
+//            "dni": "Documento Nacional de Identidad",
+//            "carnet": "Carnet de Extranjería"
+//          }
+//        },
+
+{
+
+<global><options> host: [
+	{"ARRENDATARIO": "EL ARRENDATARIO"},
+	{"ARRENDATARIA": "LA ARRENDATARIA"},
+	{"ARRENDATARIOS": "LOS ARRENDATARIOS"},
+	{"ARRENDATARIAS": "LAS ARRENDATARIOS"}
+]
+
+<global><options> tenant: [
+	{"ARRENDADOR": "EL ARRENDADOR"},
+	{"ARRENDADORA": "LA ARRENDADORA"},
+	{"ARRENDADORES": "LOS ARRENDADORES"},
+	{"ARRENDADORAS": "LAS ARRENDADORAS"}
+]
+
+<dynamic> !title: {
+		// Título
+		<options> main: [
+			{'minuta': "Sírvase extender en su Registro de Escrituras Públicas, una en la que conste Contrato de Arrendamiento de Bien Inmueble (en adelante, contrato) que celebran, de una parte."},
+			{'privado': "Contrato de Arrendamiento de bien inmueble."}
+		]
+},
+<dynamic> !header: {
+	<param> numeration: <boolean> // Define si se debe numerar la clausula y los parrafos // false
+
+	// Encabezado/ Partes
+	<text> main: "De un lado el/la/los/las señor/a/ita/es/as/itas <host_name> con <host_doc_type> N° <host_doc_id> con domicilio en <host_address>, distrito de <host_district>,
+	provincia de <host_province> y departamento de <host_district> a quien adelante se le denominará <tenant> y; del otro lado el/la/los/las señor/a/ita/es/as/itas
+	<tenant_name> con <tenant_doc_type> N° <tenant_doc_id> con domicilio en <tenant_address>, distrito de <tenant_district>, provincia de <tenant_province> y departamento de
+	<tenant_district> a quien adelante se le denominará <host>. En los términos y condiciones siguientes.
+	Asímismo señalan que en este documento <tenant> y <host> serán referidos de manera conjunta como LAS PARTES.",
+
+	<input> host_name: <string>,
+	<options> host_doc_type [
+		{'dni': "Documento Nacional de Identidad"},
+	 	{'carnet': "Carnet de Extranjería"},
+	],
+	<input> host_doc_id: <string>,
+	<input> host_address: <string>,
+	<input> host_district: <string>,
+	<input> host_province: <string>,
+	<options> host_department:[
+		// Departamentos
+		{"AREQUIPA": "Arequipa"},
+		...
+	],
+	<input> tenant_name: <string>,
+	<options> tenant_doc_type: [
+		{'dni': "Documento Nacional de Identidad"},
+	 	{'carnet': "Carnet de Extranjería"},
+	],
+	<input> tenant_doc_id: <string>,
+	<input> tenant_address: <string>,
+	<input> tenant_district: <string>,
+	<input> tenant_province: <string>,
+	<input> tenant_department: <string>
+},
+// TODO 1: EN ADELANTE SE ULTILIZARÁ ARRENDADOR Y ARRENDATARIA DE MANERA REFERENCIAL HASTA DEFINIR CÓMO SE HARÁ
+<dynamic> Antecedentes: {
+    <param> numeration: <boolean>  // Define si se debe numerar la clausula y los parrafos // false
+
+	<text> main: "<tenant> es <host_title> del predio ubicado en <property_address>, distrito de <property_district>, provincia <property_province> y departamento de <property_region>; el mismo que se encuentra debidamente inscrito en la partida N°<property_record> del Registro de Predios de la Zona Registral N° <registry_zone_number> – Sede <registry_zone_headquarter> a quien en adelante se denominará EL INMUEBLE.
+
+	<tenant> declara ser <host_title> y/o contar con el título habilitante que, con arreglo a ley, le permite arrendar EL INMUEBLE, objeto de este contrato.",
+
+	<input> property_address: <string>,
+	<input> property_district: <string>,
+	<input> property_province: <string>,
+	<input> property_department: [
+		// Departamentos
+		{"AREQUIPA": "Arequipa"},
+		...
+	],
+	<input> property_record: <integer>,
+	<input> registry_zone_number: <integer>,
+	<options> registry_zone_headquarter: [
+	// Corresponde a un Departamento,
+		{"AREQUIPA": "Arequipa"},
+		...
+	]
+
+	<options> host_title: [
+		// título habilitante para arrendar
+		// propietario, co-propietario, poseedor,arrendatario,cesionario
+		{"Propietario": "propietario"},
+		{"Co-Propietario": "co-propietario"},
+		{"Poseedor": "poseedor"},
+		{"Arrendatario": "arrendatario"},
+		{"Cesionario": "cesionario"},
+		{"Otros": <input>other_title: <string>}
+	]
+},
+
+<dynamic> <<numeration>>.- Caracteristicas del Inmueble: {
+	<param> numeration: <boolean>  // Define si se debe numerar la clausula y los parrafos // true
+
+	<text> main: "<<sub-numeration>> EL INMUEBLE es un <property_type> ubicado en la dirección señalada en los antecedentes del presente contrato, cuenta con un área de <property_area> m2 y está construido con material <material_type>.
+
+	<<sub-numeration>> <tenant> declara que EL INMUEBLE consta de los siguientes ambientes, <property_description>. <anexo fotografico>",
+
+	<options> property_type: [
+		{"CASA": "casa"},
+		{"DEPARTAMENTO": "departamento"}
+	],
+	<input> property_area: <integer>
+	<options> material_type: [
+		{"NOBLE": "noble"},
+		{"CEMENTO": "cemento"}
+	],
+	<input> property_description: <string>, // descripcion de los ambientes,
+	<options> attached_photos: [
+		{"YES": "De acuerdo con el Anexo 1 fotográfico que LAS PARTES aprobarán."},
+		{"NO": ""}
+	]
+}
+
+<dynamic> !<<numeration>>.- Objeto del Contrato: {
+	<param> numeration: <boolean>  // Define si se debe numerar la clausula y los parrafos // true
+
+	<text> main: "Por este contrato <tenant> se compromete a dar en arrendamiento <property_portion> de EL INMUEBLE a favor de <host>. <host> se obligan a destinar el bien arrendado, para uso único y exclusivo de vivienda familiar, pudiendo emplear el bien y/o una parte del bien en toda su extensión para dichos fines; sin alterar el orden público y las buenas costumbres, en concordancia con el medio ambiente, la paz y tranquilidad de los vecinos.",
+
+	<options> property_portion: [
+		{"TOTAL": "la totalidad"},
+		{"PARTE": "una parte"}
+	]
+
+},
+// TODO 2: GENERAR POSIBILIDAD DE ANEXO 1: REGISTRO FOTOGRÁFICO
+
+<dynamic> !<<numeration>>>- Vigencia/Plazo: {
+	//Tiempo de duración e inicio
+	<param> numeration: <boolean>  // true
+
+	<text> main: "El plazo del presente contrato será de<duration_in_years><duration_in_months><contract_in_days> contado a partir del <contract_starting_day> de <contract_starting_month> del <contract_starting_year> y terminará el <contract_ending_day> de <contract_ending_month> del <contract_ending_year>, sin necesidad de aviso previo",
+
+	<options> duration_in_years: [
+		{"YES": " <contract_duration_years> año(s),"},
+		{"NO": ""}
+	]
+	<options> duration_in_months: <options> duration_in_years: [
+		{"YES": " <contract_duration_extra_months> mes(es),"},
+		{"NO": ""}
+	]
+	<options> contract_in_days: <options> duration_in_years: [
+		{"YES": " <contract_duration_extra_days> día(s),"},
+		{"NO": ""}
+	]
+
+	<input> contract_duration_years: <integer>
+	<input> contract_duration_extra_months: <integer>
+	<input> contract_duration_extra_days: <integer>
+
+
+	<input> contract_starting_day: <integer>
+	<options> contract_starting_month: [
+		{"ENERO": "Enero"},
+		{"FEBRERO": "Febrero"}
+		...
+	]
+	<input> contract_starting_year: <integer>
+
+	<input> contract_ending_day: <integer>
+	<options> contract_ending_month: [
+		{"ENERO": "Enero"},
+		{"FEBRERO": "Febrero"}
+		...
+	]
+	<input> contract_ending_year: <integer>
+},
+
+<dynamic> !<<numeration>>> - Renta y Forma de Pago: {
+	<param> numeration: <boolean>  // true
+
+	<text> main: "A partir del <payment_starting_day> de <payment_starting_month> de <payment_starting_year> <host> pagará puntualmente la renta completa pactada por LAS PARTES de mutuo acuerdo ascendente a la suma de <currency_symbol> <cost> (<cents> con 00/100 <currency_name>) <rent_payment_type> la misma que no incluye los servicios de agua, luz y otros; que deberá ser pagados <service_payment_type>, sin requerimiento previo.
+
+	Las partes acuerdan que la periodicidad de la renta pactada sera <peridicity>.
+
+	Por su parte, <host> se compromete a depositar la renta pactada en la cuenta de ahorros N°<account_number> del <account_bank> de <account_country> a nombre de <account_owner>",
+
+
+	<options> peridicity: [
+		{"MENSUAL": "mensual"},
+		{"TRIMESTRAL": "trimestral"},
+		{"SEMESTRAL": "semestral"},
+		{"ANUAL": "anual"}
+	],
+	<input> cost: <float>,
+	<input> cents: <integer>,
+	<options> currency_symbol: [
+		{"DOLAR": "USD.$"},
+		{"SOL": "S/"}
+	]
+	<options> currency_name: [
+		{"DOLAR": "dolares americanos"},
+		{"SOL": "soles"}
+	]
+	<options> service_payment_type: [
+		{"ADELANTADO": "por mes adelantado"},
+		{"VENCIMIENTO": "al vecimiento del recibo"}
+	]
+	<input> payment_starting_day: <integer>
+	<options> payment_starting_month: [
+		{"ENERO": "Enero"},
+		{"FEBRERO": "Febrero"}
+		...
+	]
+	<input> payment_starting_year: <integer>
+
+	<options> rent_payment_type: [
+		{"ADELANTADO": "por mes adelantado, el primer día (01) hábil de cada mes"},
+		{"COMPLETADO": "por mes completado el último día hábil de cada mes"}
+	]
+
+	<input> account_number: <string>
+	<input> account_bank: <string>
+	<input> account_country: <string>
+	<input> account_owner: <string>
+},
+
+
+<dynamic> <<numeration>>> - Devolución del Inmueble: {
+	<param> numeration: <boolean>  // true
+
+
+	<text> main: "<host> se obliga a entregar EL INMUEBLE a <tenant>, completamente desocupado a la fecha de culminación del plazo establecido en este contrato.
+	EL INMUEBLE deberá ser desocupado y devuelto en las mismas condiciones en que fue recibido por <host>, salbo por el desgaste natural como resultado del uso normal y diligente de EL INMUEBLE.
+
+	Asímismo <tenant>, se obliga a devolver al momento de la devolución de EL INMUEBLE, el valor total del concepto pactato en este contrato como garantía.
+
+	<services_final_status>",
+
+	<options> services_final_status: [
+		{"YES": "<host> se obliga a la cancelación completa de todos los servicios de agua, luz y otros a la fecha de devolución de EL INMUEBLE."},
+		{"NO": ""}
+	]
+},
+
+<dynamic> <<numeration>>> - Obligaciones del Arrendador: {
+	<param> numeration: <boolean>  // true
+
+	<text> main: "Entregar el inmueble con todos los accesorios incluidos en este contrato, en buen estado de funcionamiento, para lo cual LAS PARTES podrán suscribir un acta de entrega de EL INMUEBLE.
+
+	<taxes_included>",
+
+	<options> taxes_included: [
+		{"YES": "Es responsabilidad de <tenant> el pago del Impuesto Predial correspondiente, y el pago del Impuesto a la Renta conforme a ley debiendo entregar a <host> el recibo correspondiente del Banco de la Nación."},
+		{"NO": ""}
+	]
+
+	// TODO: <static> entrega del inmueble: <>,
+	// TODO: <static> no haga modificaciones: <>
+},
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
