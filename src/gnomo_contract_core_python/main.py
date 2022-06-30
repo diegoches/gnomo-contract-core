@@ -8,11 +8,10 @@ def main():
     print('####################')
 
     transformer = DescriptionToWorkflow()
-    print(transformer)
     
     description = ContractDescriptionModel.from_file('basic_property_contract_description.json')
-    print(description)
-    print(type(description.global_mappings['host']))
+    print(description.sections[1].mappings['host_doc_type'].options)
+    print(description.global_mappings.keys())
 
 
 if __name__ == '__main__':

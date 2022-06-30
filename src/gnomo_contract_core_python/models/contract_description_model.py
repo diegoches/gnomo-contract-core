@@ -2,8 +2,10 @@ import json
 from dataclasses import dataclass, field
 from typing import Dict, List
 
-from src.gnomo_contract_core_python.models.description_mapping_model import DescriptionMappingModel
 from src.gnomo_contract_core_python.models.basic_model import BasicModel
+from src.gnomo_contract_core_python.models.description_mapping_model import DescriptionMappingModel
+from src.gnomo_contract_core_python.models.description_section_model import DescriptionSectionModel
+
 
 '''
 Main Dict Structure:
@@ -31,11 +33,7 @@ Mapping Dict Structure:
 @dataclass
 class ContractDescriptionModel(BasicModel):
     global_mappings: Dict[str, DescriptionMappingModel] = field(init=False, repr=False, compare=False)
-    sections: List
-
-    # @classmethod
-    # def from_dict(cls, dict_object):
-    #     return cls(**dict_object)
+    sections: List[DescriptionSectionModel] = field(init=False, repr=False, compare=False)
 
     @classmethod
     def from_file(cls, file_name):
