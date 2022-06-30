@@ -26,7 +26,7 @@ Question Dict Structure:
 """
 
 
-class ContractWorkflow:
+class ContractWorkflowModel:
 
     def __init__(self):
         self.data = {}
